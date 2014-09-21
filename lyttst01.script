@@ -1,0 +1,43 @@
+// Copyright (c) 2014 Mimetics Inc.
+// All Rights Reserved
+//
+// THIS SOFTWARE IS PROVIDED BY MIMETICS "AS IS" WITHOUT ANY EXPRESSED OR 
+// IMPLIED WARRANTIES.  IN NO CASE SHALL MIMETICS OR ANY CONTRIBUTORS BE
+// LIABLE IN ANY DAMAGES CAUSED BY THE USE OF THIS SOFTWARE.  
+//
+// FileName: lyttst01.script
+// Version : 01.0
+//
+// Author  : myke predko
+//
+// Description: Show Light sensor Values as Sliders
+//
+// Release History:
+//  lyttst01 - Display the current Light Values using 
+//           - Copied from "lightF05"
+meta("icon",                "lightF05.b");
+meta("description",         "Light Sensor:Light Sensor Test");
+int                         left;
+int                         right;
+int                         rear;
+str                         outString;
+
+
+    syscall(motorleftset, "0");  syscall(motorrightset, "0");
+
+    syscall(loadpanelfile, "_exec2.p");
+    syscall(setpanelicon, "tools:lightF05.b");
+    syscall(loadsubpanelfile, "lyttst01.p");
+    syscall(setpaneltext, "pgmname:Light Sensor");
+    syscall(runpanelfile, "");
+
+
+    for (; "RUN:" == syscall(tostring, "4:" + syscall(getactivepanelstatus, ""));) {
+        left  = stoi(syscall(leftlight, ""));
+        syscall(setpanelvalue, "leftFront:" + itos(left));
+        right = stoi(syscall(rightlight, ""));
+        syscall(setpanelvalue, "rightFront:" + itos(right));
+        rear  = stoi(syscall(rearlight, ""));
+        syscall(setpanelvalue, "rearMiddle:" + itos(rear));
+    }
+
